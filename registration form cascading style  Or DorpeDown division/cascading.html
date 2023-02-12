@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+<script>
+  //autocomplete script
+$(".autocomplete_txt").keyup(function(){
+    type = $(this).data('type');
+    if(type =='itemID' )autoTypeNo=0;
+    if(type =='item_name' )autoTypeNo=1;    
+    $(this).autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url : 'ajax.php',
+                dataType: "json",
+                method: 'post',
+                data: {
+                   name_startsWith: request.term,
+                   type: type
+                },
+                 success: function( data ) {
+                     response( $.map( data, function( item ) {
+                        var code = item.split("|");
+                        return {
+                            label: code[autoTypeNo],
+                            value: code[autoTypeNo],
+                            data : item
+                        }
+                    }));
+                }
+            });
+        },
+        autoFocus: true,            
+        minLength: 0,
+        select: function( event, ui ) {
+            var names = ui.item.data.split("|");                        
+            id_arr = $(this).attr('id');
+            id = id_arr.split("_");
+            element_id = id[id.length-1];
+            $('#itemID_'+element_id).val(names[0]);
+            $('#item_name_'+element_id).val(names[1]);
+            /*$('#quantity_'+element_id).val(1);
+            $('#price_'+element_id).val(names[2]);
+            $('#total_'+element_id).val( 1*names[2] );*/
+            calculateTotal();
+        }               
+    });
+});
+</script>
+
+
+
+
+
+<tr>
+  <td><a id="remRow"><span class="icon icon-squared-cross"></span></a></td>
+  <td><input type="hidden" data-type="itemID" name="itemID[]" id="itemID" class="form-control autocomplete_txt" autocomplete="off">
+  <input type="text" data-type="item_name" name="item_name[]" id="item_name" class="form-control autocomplete_txt" autocomplete="off" placeholder="Item Name"></td>
+  <td><input type="text" name="item_sku[]" id="item_sku" class="form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" placeholder="SKU#"></td>
+  <td><input type="text" name="item_qty[]" id="item_qty" class="form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" placeholder="Qty"></td>
+  <td><input type="text" name="item_rate[]" id="item_rate" class="form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" placeholder="Cost"></td>
+  <td><input type="text" name="balance[]" id="balance" class="form-control totalLinePrice" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" placeholder="Balance"></td>
+  </tr>
+
+
+  
+
+</body>
+</html>

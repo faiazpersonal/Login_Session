@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> 
+
+<!-- jQuery --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<!-- Select2 JS --> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+
+
+
+    <script type= "text/javascript" src = "countries.js"></script>
+</head>
+<body>
+    <select onchange="print_state('state',this.selectedIndex);" id="country" name ="country"></select>
+    <select name ="state" id ="state"></select>
+  
+
+
+
+    <script>print_country("country");</script>
+    <script>print_state("state");</script>
+
+
+
+    <script>
+
+ 
+    </script>
+
+
+</script>
+</body>
+</html>
